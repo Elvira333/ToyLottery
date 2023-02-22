@@ -1,5 +1,7 @@
 package org.example;
 
+import java.io.*;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -25,7 +27,8 @@ public abstract class Toys {
         list.add(new BigToys(3, "Слоны", 100, 10));
         return list;
     }
-    public static List<Toys> getListToys(int res1, int res2, int res3, int[] findId){
+
+    public static List<Toys> geNewtListToys(int res1, int res2, int res3, int[] findId){
 
         List<Toys> newToysList = new ArrayList<>();
         newToysList.add(new SmallToys(findId[0], "Зайчики", 30, res1));
@@ -50,47 +53,89 @@ public abstract class Toys {
         return findId;
     }
 
-
-
     public static void showList(List<Toys> list, String msq){
         System.out.println(msq);
         for (Toys toy : list
         ) {
             System.out.println(toy);
-
         }
     }
     /*
     метод получения количества игрушек по категориям
      */
-    public static int[] findNumberToys(int[] arr){
+    public static int[] findNumberToys(int[] arr, List<Toys> list) throws IOException {
         Arrays.sort(arr);
-        int[] res = new int[3];
+        int size = list.size();
+        int[] res = new int[size]; // тут лежат id
         int count =1;
         int index = 0;
         int el = arr[0];
-        for (int i = 1; i<= arr.length-1;i++) {
-            if (el != arr[i]) {
+        for (int i =0; i<= arr.length-1;i++) {
+
+           if (el != arr[i]) {
                 res[index] = count;
                 count = 1;
                 index++;
                 el = arr[i];
             } else {
                 count++;
-
             }
             if (i == arr.length - 1) {
                 res[index] = count;
             }
-
         }
         return res;
+    }
+
+    /*
+    метод записи в файл призовых игрушек
+     */
+    public static void writerFile(int[] arr) throws IOException {
+        File file = getFile();
+        FileOutputStream fos = new FileOutputStream(file);
+        OutputStreamWriter osw = new OutputStreamWriter(fos, StandardCharsets.UTF_8);
+        BufferedWriter writer = new BufferedWriter(osw);
+
+        for(int i= 0 ; i<arr.length; i++) {
+            switch (arr[i]) {
+                case 1:
+                    writer.write("Выдача приза: Зайчик!\n");
+                    break;
+                case 2:
+                    writer.write("Выдача приза: Мишка!\n");
+                    break;
+                case 3:
+                    writer.write( "Выдача приза: Слон!\n");
+                    break;
+
+            }
+        }
+        writer.close();
+    }
+    /*
+    метод создания файла
+    */
+    public static File getFile(){
+        File file = new File("prizeToys.txt");
+        try {
+            boolean result = file.createNewFile();
+            if (result) {
+                System.out.println("Файл успешно создан");
+            } else {
+                System.out.println("Файл уже существует");
+            }
+        } catch (IOException e) {
+            System.out.println("Ошибка при создании файла: " + e.getMessage());
+        }
+        return file;
     }
 
     @Override
     public String toString() {
         return "id:" + id + " Название:" + name + " Вес:"+ weight + "гр.";
     }
+    public String toString(int id){
+        return name + "\n";
 
-    public abstract int getRest(List<Toys> list, int[] res, int id);
+    }
 }

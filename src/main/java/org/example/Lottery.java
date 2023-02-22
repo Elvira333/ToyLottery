@@ -1,6 +1,6 @@
 package org.example;
 
-import java.util.Arrays;
+import java.io.IOException;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
@@ -22,26 +22,7 @@ public class Lottery {
             return 3;
         }
     }
-   public static int[] startQuiz(List<Toys>list){
-       Scanner scanner = new Scanner(System.in);
-       System.out.println("Хотите начать лотерею? Введите 'да' или 'нет'");
-       String choose = scanner.next().toLowerCase();
 
-       final String YES = "да";
-       final String NO = "нет";
-       int[] result = getArrayGifts(list, 10); // массив для викторины на 10 человек
-
-       // реализаци игры
-       if (choose.equals(YES)) {
-           Lottery.distributionGifts(result);
-       } else if (choose.equals(NO)) {
-           System.out.println("До встречи!");
-       } else {
-           System.out.println("Некорректный ввод, попробуйте ещё раз");
-       }
-       scanner.close();
-       return result;
-   }
     /*
 метод получения массива подарков для раздачи в лотерее
 */
@@ -52,6 +33,27 @@ public class Lottery {
             prizes[i] = generateNumber();
         }
         return prizes;
+    }
+    public static int[] startQuiz(List<Toys>list) throws IOException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Хотите начать лотерею? Введите 'да' или 'нет'");
+        String choose = scanner.next().toLowerCase();
+
+        final String YES = "да";
+        final String NO = "нет";
+        int [] result = new int[0];
+        // реализаци игры
+        if (choose.equals(YES)) {
+            result = getArrayGifts(list, 10);
+            Lottery.distributionGifts(result);
+            Toys.writerFile(result);
+        } else if (choose.equals(NO)) {
+            System.out.println("До встречи!");
+        } else {
+            System.out.println("Некорректный ввод, попробуйте ещё раз");
+        }
+        scanner.close();
+        return result;
     }
 
     /*
@@ -73,4 +75,5 @@ public class Lottery {
             }
         }
     }
+
 }

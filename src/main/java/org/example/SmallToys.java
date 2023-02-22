@@ -17,17 +17,10 @@ public class SmallToys extends Toys{
         return volume;
     }
 
+
     public void setVolume(int volume) {
         this.volume = volume;
     }
-
-
-    @Override
-    public String toString() {
-        return super.toString() + " " + volume + " шт.";
-    }
-
-
 
     public int getRest(List<Toys> list, int[] res, int id) {
         int rest = 0;
@@ -41,4 +34,11 @@ public class SmallToys extends Toys{
         }
         return rest;
     }
+    @Override
+    public String toString() {
+        return super.toString() + " " + volume + " шт.";
+    }
+
+
+
 }
