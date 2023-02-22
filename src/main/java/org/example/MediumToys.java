@@ -1,11 +1,20 @@
 package org.example;
 
+import java.util.List;
+
 public class MediumToys extends Toys{
     private int volume;
 
-    public MediumToys(long id, String name, int weight, int volume) {
+    public MediumToys(){
+
+    }
+    public MediumToys(int id, String name, int weight, int volume) {
         super(id, name, weight);
         this.volume = volume;
+    }
+
+    public MediumToys(int id, String name, int weight) {
+        super(id, name, weight);
     }
 
     public int getVolume() {
@@ -19,5 +28,20 @@ public class MediumToys extends Toys{
     @Override
     public String toString() {
         return super.toString() + " " + volume + " шт.";
+    }
+
+
+
+    public int getRest(List<Toys> list, int[] res, int id) {
+        int rest = 0;
+        for (Toys toy : list) {
+            if (toy instanceof MediumToys && toy.getId() == id) {
+                MediumToys mediumToys = (MediumToys) toy;
+                rest = mediumToys.getVolume() - res[id - 1];
+                mediumToys.setVolume(rest);
+                break; // выходим из цикла, когда найден нужный объект
+            }
+        }
+        return rest;
     }
 }

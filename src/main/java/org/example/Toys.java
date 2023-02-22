@@ -1,27 +1,56 @@
 package org.example;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Random;
 
 public abstract class Toys {
-    private long id;
+    private int id;
     private String name;
     private int weight;
 
-    public Toys(long id, String name, int weight) {
+    public Toys(int id, String name, int weight) {
         this.id = id;
         this.name = name;
         this.weight = weight;
     }
 
-    public long getId() {
-        return id;
+    protected Toys() {
     }
 
-    public void setId(long id) {
-        this.id = id;
+    public static List<Toys> getListToys(){
+        List<Toys> list = new ArrayList<>();
+        list.add(new SmallToys(1, "Зайчики", 30, 50));
+        list.add(new MediumToys(2, "Мишки", 60, 25));
+        list.add(new BigToys(3, "Слоны", 100, 10));
+        return list;
     }
+    public static List<Toys> getListToys(int res1, int res2, int res3, int[] findId){
+
+        List<Toys> newToysList = new ArrayList<>();
+        newToysList.add(new SmallToys(findId[0], "Зайчики", 30, res1));
+        newToysList.add(new MediumToys(findId[1], "Мишки", 60, res2));
+        newToysList.add(new BigToys(findId[2], "Слоны", 100, res3));
+        return newToysList;
+    }
+
+    public int getId() {
+        return id;
+    }
+    public static int[] findId(List<Toys> list){
+        int size = list.size();
+        int[] findId = new int[size];
+        int i = 0;
+        for (Toys toy : list) {
+            int id = toy.getId(); // получаем id каждого объекта
+            findId[i]=id;
+            i++;
+
+        }
+        return findId;
+    }
+
+    public void setId(int id) {this.id = id;}
 
     public String getName() {
         return name;
@@ -39,54 +68,20 @@ public abstract class Toys {
         this.weight = weight;
     }
 
-    public static int generateNumber() {
-        Random random = new Random();
-        int number = random.nextInt(100);
 
-        if (number < 60) {
-            return 1;
-        } else if (number < 90) {
-            return 2;
-        } else {
-            return 3;
-        }
-    }
-    /*
-    метод получения массива подарков для раздачи в лотерее
-    */
-    public static int[] getArrayGifts(List<Toys> list, int size){
-        int [] prizes = new int[size];
-        for(int i = 0;i<prizes.length;i++)
-        {
-            prizes[i] = Toys.generateNumber();
-        }
-        return prizes;
-    }
-    /*
-    метод раздачи подарков для каждого игрока
-     */
-    public static void distributionGifts(int[] array) {
-        for(int i = 0;i < array.length;i++){
-            System.out.printf("Игрок %d!", (i+1));
-            switch (array[i]) {
-                case 1:
-                    System.out.println("Поздравляем, вы выйграли Зайчика!");
-                    break;
-                case 2:
-                    System.out.println("Поздравляем, вы выйграли Мишку!");
-                    break;
-                case 3:
-                    System.out.println("Поздравляем, вы выйграли Слона!");
-                    break;
-            }
+    public static void showList(List<Toys> list, String msq){
+        System.out.println(msq);
+        for (Toys toy : list
+        ) {
+            System.out.println(toy);
+
         }
     }
     /*
     метод получения количества игрушек по категориям
      */
-    public static int[] deletingIssuedGifts(int[] arr){
+    public static int[] findNumberToys(int[] arr){
         Arrays.sort(arr);
-        System.out.println(Arrays.toString(arr));
         int[] res = new int[3];
         int count =1;
         int index = 0;
@@ -97,19 +92,33 @@ public abstract class Toys {
                 count = 1;
                 index++;
                 el = arr[i];
-            } else{
+            } else {
                 count++;
 
             }
-            if(i==arr.length-1)
-            {
+            if (i == arr.length - 1) {
                 res[index] = count;
             }
 
         }
-        System.out.print(Arrays.toString(res));
         return res;
     }
+
+/*
+метод получения остатков игрушек
+ */
+//public static int getRest(List<Toys> list, int[] res, int id, ){
+//    int rest = 0;
+//    for (Toys toy : list) {
+//        if (toy instanceof  && toy.getId() == id) {
+//            Objects objects = (SmallToys) toy;
+//            rest = objects.getVolume() - res[id-1];
+//            objects.setVolume(rest);
+//            break; // выходим из цикла, когда найден нужный объект
+//        }
+//    }
+//    return rest;
+//}
 
 
     @Override
@@ -117,4 +126,5 @@ public abstract class Toys {
         return "id:" + id + " Название:" + name + " Вес:"+ weight + "гр.";
     }
 
+    public abstract int getRest(List<Toys> list, int[] res, int id);
 }

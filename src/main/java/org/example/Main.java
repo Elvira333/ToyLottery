@@ -3,55 +3,35 @@ package org.example;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Scanner;
+
 
 public class Main {
+
     public static void main(String[] args) {
-        List<Toys> toys = new ArrayList<>();
-        toys.add(new SmallToys(1,"Зайчики", 30,50));
-        toys.add(new MediumToys(2, "Мишки", 60,25));
-        toys.add(new BigToys(3,"Слоны", 100, 10));
+        List<Toys> toys = Toys.getListToys();
+        Toys.showList(toys, "Список игрушек");
 
-        System.out.println("Список игрушек:");
-        for (Toys toy: toys
-             ) {
-            System.out.println(toy);
+        int[] resultQuiz = Lottery.startQuiz(toys); // активация игры и общий список всех игрушек участвующих в викторине
+        int [] numberToys = Toys.findNumberToys(resultQuiz); // общее количество игрушек по каждой категории после сортировки
 
-        }
-        for (Toys toy : toys) {
-            if (toy instanceof SmallToys) {
-                SmallToys smallToy = (SmallToys) toy;
-                int volume = smallToy.getVolume();
-                System.out.println("Объем зайчика: " + volume);
-            }
-        }
+        int[] findId = Toys.findId(toys); // нахождение всех id из списка
 
 
-
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Хотите начать лотерею? Введите 'да' или 'нет'");
-        String choose = scanner.next().toLowerCase();
-
-        final String YES = "да";
-        final String NO = "нет";
-        int[] result = Toys.getArrayGifts(toys,10); // массив для викторины на 10 человек
+        SmallToys restSmallToys = new SmallToys();
+        int res1 = restSmallToys.getRest(toys,numberToys,findId[0]); // получение остатка маленьких игрушек
 
 
+        MediumToys mediumToys = new MediumToys();
+        int res2 = mediumToys.getRest(toys,numberToys,findId[1]);  // получение остатков средних игрушек
 
-        System.out.println(Arrays.toString(result));
 
-        //Toys.deletingIssuedGifts(result);
-        if(choose.equals(YES)) {
-            Toys.distributionGifts(result);
-        }
-        else if(choose.equals(NO)){
-            System.out.println("До встречи!");
-        }
-        else
-            {
-                System.out.println("Некорректный ввод, попробуйте ещё раз");
-            }
-        scanner.close();
-        }
+        BigToys bigToys = new BigToys();
+        int res3 = bigToys.getRest(toys,numberToys,findId[2]); // получение остатков больших игрушек
+
+
+        List<Toys> newToysList = Toys.getListToys(res1,res2,res3,findId); // новый список с новыми значениями по остаткам
+        toys = newToysList; // перезапись старого списка на новые значения.
+        Toys.showList(toys,"Список с остатками игрушек");
 
     }
+}
