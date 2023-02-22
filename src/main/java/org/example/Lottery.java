@@ -47,6 +47,8 @@ public class Lottery {
             result = getArrayGifts(list, 10);
             Lottery.distributionGifts(result);
             Toys.writerFile(result);
+            int[] findId = Toys.findId(list);
+
         } else if (choose.equals(NO)) {
             System.out.println("До встречи!");
         } else {
@@ -55,6 +57,7 @@ public class Lottery {
         scanner.close();
         return result;
     }
+
 
     /*
 метод раздачи подарков для каждого игрока
