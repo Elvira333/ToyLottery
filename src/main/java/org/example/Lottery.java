@@ -32,7 +32,6 @@ public class Lottery {
        int[] result = getArrayGifts(list, 10); // массив для викторины на 10 человек
 
        // реализаци игры
-       //Toys.deletingIssuedGifts(result);
        if (choose.equals(YES)) {
            Lottery.distributionGifts(result);
        } else if (choose.equals(NO)) {

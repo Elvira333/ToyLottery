@@ -13,10 +13,6 @@ public class MediumToys extends Toys{
         this.volume = volume;
     }
 
-    public MediumToys(int id, String name, int weight) {
-        super(id, name, weight);
-    }
-
     public int getVolume() {
         return volume;
     }

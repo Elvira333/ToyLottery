@@ -50,23 +50,6 @@ public abstract class Toys {
         return findId;
     }
 
-    public void setId(int id) {this.id = id;}
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public int getWeight() {
-        return weight;
-    }
-
-    public void setWeight(int weight) {
-        this.weight = weight;
-    }
 
 
     public static void showList(List<Toys> list, String msq){
@@ -103,23 +86,6 @@ public abstract class Toys {
         }
         return res;
     }
-
-/*
-метод получения остатков игрушек
- */
-//public static int getRest(List<Toys> list, int[] res, int id, ){
-//    int rest = 0;
-//    for (Toys toy : list) {
-//        if (toy instanceof  && toy.getId() == id) {
-//            Objects objects = (SmallToys) toy;
-//            rest = objects.getVolume() - res[id-1];
-//            objects.setVolume(rest);
-//            break; // выходим из цикла, когда найден нужный объект
-//        }
-//    }
-//    return rest;
-//}
-
 
     @Override
     public String toString() {

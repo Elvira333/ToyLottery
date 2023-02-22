@@ -13,10 +13,6 @@ public class SmallToys extends Toys{
         this.volume=volume;
     }
 
-    public SmallToys(int id, String name, int weight) {
-        super(id, name, weight);
-    }
-
     public int getVolume() {
         return volume;
     }
