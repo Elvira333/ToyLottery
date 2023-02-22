@@ -20,7 +20,7 @@ public class Main {
             Toys.showList(toys,"Список с остатками игрушек");
         }
         catch (Exception e) {
-            System.out.println("Попробуйте ещё раз: " + e.getMessage());
+            System.out.println("Попробуйте ещё раз! " + e.getMessage());
         }
     }
 }
